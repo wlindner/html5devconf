@@ -1,0 +1,51 @@
+<link href="media-object.html" rel="import">
+
+<link href="product-preview-header.html" rel="import">
+<link href="product-preview-image.html" rel="import">
+<link href="product-preview-body.html" rel="import">
+<link href="product-preview-action.html" rel="import">
+
+<template id="shadow">
+  <style>
+    :host {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: inline-block;
+      /width: 30em;
+      padding: 1.5em;
+    }
+    div {
+      font-size: .9em;
+    }
+  </style>
+  <media-object>
+    <div>
+      <content select="product-preview-image"></content>
+    </div>
+    <div>
+      <content select="product-preview-header"></content>
+      <content select="product-preview-body"></content>
+      <content select="product-preview-action"></content>
+    </div>
+  </media-object>
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.ProductPreview = document.registerElement('product-preview', {
+    prototype: proto
+  });
+
+}(document.currentScript.ownerDocument));
+</script>

@@ -1,0 +1,30 @@
+<template id="shadow">
+  <style>
+    :host {
+      margin: 0 1.5em;
+    }
+    ::content img {
+      max-width: 4em;
+    }
+  </style>
+  <content></content>
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.ProductPreviewImage =
+      document.registerElement('product-preview-image', {prototype: proto});
+
+}(document.currentScript.ownerDocument));
+</script>

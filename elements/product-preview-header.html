@@ -1,0 +1,64 @@
+<link href="inline-divided-list.html" rel="import">
+
+<template id="shadow">
+  <style>
+    :host {
+      display: block;
+    }
+
+    ::content * {
+      /* all: unset is buggy so reset individual properties for now */
+      color: inherit;
+      margin: 0;
+      text-decoration: none;
+    }
+
+    /* Allow for any heading level */
+    ::content > h1,
+    ::content > h2,
+    ::content > h3,
+    ::content > h4,
+    ::content > h5,
+    ::content > h6 {
+      display: block;
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-bottom: .5em;
+    }
+
+    ::content a:focus,
+    ::content a:hover {
+      color: hsl(150,50%,50%);
+    }
+
+    inline-divided-list {
+      color: #555;
+      font-size: .8em;
+    }
+  </style>
+
+  <content select="h1,h2,h3,h4,h5,h6"></content>
+  <inline-divided-list>
+    <content select="ol,ul"></content>
+  </inline-divided-list>
+
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.ProductPreviewHeader =
+      document.registerElement('product-preview-header', {prototype: proto});
+
+}(document.currentScript.ownerDocument));
+</script>

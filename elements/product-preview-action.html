@@ -1,0 +1,49 @@
+<link href="inline-divided-list.html" rel="import">
+<link href="control-group.html" rel="import">
+
+<template id="shadow">
+  <style>
+
+    ::content label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: .5em;
+    }
+
+    ::content control-group {
+      display: inline-flex;
+    }
+
+    ::content control-group:first-of-type {
+      display: inline-flex;
+      margin-right: 1em;
+      width: 10em;
+    }
+
+    ::content icon-cart {
+      margin-right: .75em;
+    }
+
+  </style>
+  <content select="label"></content>
+  <content select="control-group"></content>
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.ProductPreviewAction =
+      document.registerElement('product-preview-action', {prototype: proto});
+
+}(document.currentScript.ownerDocument));
+</script>

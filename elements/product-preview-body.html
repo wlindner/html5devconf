@@ -1,0 +1,36 @@
+<template id="shadow">
+  <!--
+  <style>
+    :host {
+
+    }
+    ::content a {
+      color: inherit;
+      font-size: 1.4em;
+      text-decoration: none;
+    }
+  </style>
+  -->
+
+  <content></content>
+
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.ProductPreviewBody =
+      document.registerElement('product-preview-body', {prototype: proto});
+
+}(document.currentScript.ownerDocument));
+</script>

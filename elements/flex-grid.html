@@ -1,0 +1,48 @@
+<template id="shadow">
+  <style>
+
+    :host {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 0 -1.5em -1.5em;
+      padding: 0;
+    }
+
+    :host:after {
+      content: '';
+      display: block;
+      height: 0;
+    }
+
+    :host:after,
+    ::content > * {
+      flex-grow: 1;
+      flex-basis: inherit;
+      margin: 0 0 1.5em 1.5em;
+    }
+
+
+
+  </style>
+  <content></content>
+</template>
+
+<script>
+(function(ownerDoc) {
+
+  var proto = Object.create(HTMLElement.prototype);
+
+  proto.createdCallback = function() {
+    var shadowRoot = this.createShadowRoot();
+    var shadowTemplate = ownerDoc.getElementById('shadow');
+    var shadowTemplateClone = document.importNode(shadowTemplate.content, true);
+
+    shadowRoot.appendChild(shadowTemplateClone);
+  };
+
+  window.FlexGrid = document.registerElement('flex-grid', {
+    prototype: proto
+  });
+
+}(document.currentScript.ownerDocument));
+</script>
