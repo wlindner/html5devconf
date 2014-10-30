@@ -4,5 +4,4 @@ Thumbs.db
 .cache
 
 # npm
-node_modules
 npm-debug.log
